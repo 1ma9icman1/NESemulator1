@@ -161,7 +161,7 @@ const EmulatorView = ({ socket, sessionId, player1Connected, player2Connected, r
   }
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden flex flex-col items-center justify-start pt-32 gap-20" style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}>
+    <div className="relative w-screen h-screen overflow-hidden flex flex-col items-center justify-start pt-10 sm:pt-32 gap-6 sm:gap-20" style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}>
       <img 
         src="/assets/background.png" 
         alt="Room background" 
@@ -182,64 +182,63 @@ const EmulatorView = ({ socket, sessionId, player1Connected, player2Connected, r
 
       {/* UI Overlay */}
       <div 
-        className="bg-black/80 p-4 rounded-xl border border-amber-600 backdrop-blur-md shadow-2xl flex flex-col items-center gap-3"
+        className="bg-black/80 p-2 sm:p-4 rounded-xl border border-amber-600 backdrop-blur-md shadow-2xl flex flex-col items-center gap-2 sm:gap-3"
         style={{
-            width: '360px',
-            height: '357.486px',
+            width: '340px',
         }}
       >
         <DriveGameSelector ref={gameSelectorRef} onGameSelected={setRomData} />
 
-        <div className="flex gap-4 justify-center w-full items-center">
+        <div className="flex gap-2 sm:gap-4 justify-center w-full items-center">
             {/* P1 */}
-            <div key={1} className="flex flex-col items-center gap-2 w-full">
-                <QRCodeSVG value={`${window.location.origin}/controller/${sessionId}/1`} size={75} />
-                <div className="flex flex-col gap-1 w-full">
+            <div key={1} className="flex flex-col items-center gap-1 sm:gap-2 w-full">
+                <QRCodeSVG value={`${window.location.origin}/controller/${sessionId}/1`} size={50} />
+                <div className="flex flex-col gap-0.5 sm:gap-1 w-full">
                     <input 
                         type="text" 
                         placeholder="Code"
                         value={p1Code}
                         onChange={(e) => setP1Code(e.target.value)}
-                        className="p-1 rounded text-black text-xs text-center w-full"
+                        className="p-0.5 rounded text-black text-[10px] text-center w-full"
                     />
                     <button 
-                        className="bg-amber-600 text-white text-[10px] py-0.5 rounded w-full hover:bg-amber-700 transition"
+                        className="bg-amber-600 text-white text-[9px] py-0.5 rounded w-full hover:bg-amber-700 transition"
                         onClick={() => socket?.emit('join-by-code', { code: p1Code, playerId: 1 })}
                     >
                         Connect
                     </button>
                 </div>
-                <div className={`flex items-center gap-1 text-[9px] ${player1Connected ? 'text-green-400' : 'text-gray-400'}`}>
-                    <Gamepad2 size={10} /> P1: {player1Connected ? 'CONNECTED' : 'DISCONNECTED'}
+                <div className={`flex items-center gap-0.5 text-[8px] ${player1Connected ? 'text-green-400' : 'text-gray-400'}`}>
+                    <Gamepad2 size={8} /> P1: {player1Connected ? 'CONNECTED' : 'DISCONNECTED'}
                 </div>
             </div>
 
             {/* Central Connection Code */}
-            <div className="flex flex-col items-center text-[10px] text-white text-center whitespace-nowrap px-2">
+            <div className="flex flex-col items-center text-[9px] text-white text-center whitespace-nowrap px-1">
                 <div>Connect with:</div>
-                <div className="font-bold text-base text-amber-500">{connectionCode}</div>
+                <div className="font-bold text-sm text-amber-500">{connectionCode}</div>
             </div>
 
             {/* P2 */}
-            <div key={2} className="flex flex-col items-center gap-2 w-full">
-                <QRCodeSVG value={`${window.location.origin}/controller/${sessionId}/2`} size={75} />
-                <div className="flex flex-col gap-1 w-full">
+            <div key={2} className="flex flex-col items-center gap-1 sm:gap-2 w-full">
+                <QRCodeSVG value={`${window.location.origin}/controller/${sessionId}/2`} size={50} />
+                <div className="flex flex-col gap-0.5 sm:gap-1 w-full">
                     <input 
                         type="text" 
                         placeholder="Code"
                         value={p2Code}
                         onChange={(e) => setP2Code(e.target.value)}
-                        className="p-1 rounded text-black text-xs text-center w-full"
+                        className="p-0.5 rounded text-black text-[10px] text-center w-full"
                     />
                     <button 
-                        className="bg-amber-600 text-white text-[10px] py-0.5 rounded w-full hover:bg-amber-700 transition"
+                        className="bg-amber-600 text-white text-[9px] py-0.5 rounded w-full hover:bg-amber-700 transition"
                         onClick={() => socket?.emit('join-by-code', { code: p2Code, playerId: 2 })}
                     >
                         Connect
                     </button>
                 </div>
-                <div className={`flex items-center gap-1 text-[9px] ${player2Connected ? 'text-green-400' : 'text-gray-400'}`}>
-                    <Gamepad2 size={10} /> P2: {player2Connected ? 'CONNECTED' : 'DISCONNECTED'}
+                <div className={`flex items-center gap-0.5 text-[8px] ${player2Connected ? 'text-green-400' : 'text-gray-400'}`}>
+                    <Gamepad2 size={8} /> P2: {player2Connected ? 'CONNECTED' : 'DISCONNECTED'}
                 </div>
             </div>
         </div>
