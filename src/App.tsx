@@ -52,8 +52,13 @@ const ControllerView = ({ socket }: { socket: Socket | null }) => {
   }, [sessionId, playerId, socket]);
 
   const joinByCode = () => {
+      console.log("Attempting join-by-code", code, socket?.connected);
+      if (!socket) {
+          console.error("Socket not connected");
+          return;
+      }
       setPlayerId('1'); // Default to P1
-      socket?.emit('join-by-code', { code, playerId: 1 });
+      socket.emit('join-by-code', { code, playerId: 1 });
   };
 
   const sendInput = (button: number, type: 'down' | 'up') => {

@@ -74,10 +74,13 @@ async function startServer() {
 
     socket.on("join-by-code", (data) => {
         // data: { code, playerId }
+        console.log("Join by code attempt:", data.code, data.playerId);
         const sessionId = codeToSessionId.get(data.code);
         if (sessionId) {
+            console.log("Session found:", sessionId);
             socket.emit("code-verified", { sessionId });
         } else {
+            console.log("Session not found for code:", data.code);
             socket.emit("code-error", { message: "Invalid code" });
         }
     });
