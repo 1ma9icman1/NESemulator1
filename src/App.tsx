@@ -96,10 +96,15 @@ const EmulatorView = ({ socket, sessionId, player1Connected, player2Connected, r
   const emulatorRef = useRef<any>(null);
   const gameSelectorRef = useRef<any>(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const [p1Code, setP1Code] = useState('');
-  const [p2Code, setP2Code] = useState('');
   const [connectionCode] = useState(() => Math.floor(1000 + Math.random() * 9000).toString());
   const [scale, setScale] = useState(1);
+
+  const handleConnect = (playerId: number) => {
+    const code = window.prompt(`Enter connection code for Player ${playerId}:`);
+    if (code) {
+        socket?.emit('join-by-code', { code, playerId });
+    }
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -194,16 +199,9 @@ const EmulatorView = ({ socket, sessionId, player1Connected, player2Connected, r
             <div key={1} className="flex flex-col items-center gap-1 sm:gap-2 w-full">
                 <QRCodeSVG value={`${window.location.origin}/controller/${sessionId}/1`} size={50} />
                 <div className="flex flex-col gap-0.5 sm:gap-1 w-full">
-                    <input 
-                        type="text" 
-                        placeholder="Code"
-                        value={p1Code}
-                        onChange={(e) => setP1Code(e.target.value)}
-                        className="p-0.5 rounded text-black text-[10px] text-center w-full"
-                    />
                     <button 
-                        className="bg-amber-600 text-white text-[9px] py-0.5 rounded w-full hover:bg-amber-700 transition"
-                        onClick={() => socket?.emit('join-by-code', { code: p1Code, playerId: 1 })}
+                        className="bg-amber-600 text-white text-[9px] py-1 rounded w-full hover:bg-amber-700 transition"
+                        onClick={() => handleConnect(1)}
                     >
                         Connect
                     </button>
@@ -223,16 +221,9 @@ const EmulatorView = ({ socket, sessionId, player1Connected, player2Connected, r
             <div key={2} className="flex flex-col items-center gap-1 sm:gap-2 w-full">
                 <QRCodeSVG value={`${window.location.origin}/controller/${sessionId}/2`} size={50} />
                 <div className="flex flex-col gap-0.5 sm:gap-1 w-full">
-                    <input 
-                        type="text" 
-                        placeholder="Code"
-                        value={p2Code}
-                        onChange={(e) => setP2Code(e.target.value)}
-                        className="p-0.5 rounded text-black text-[10px] text-center w-full"
-                    />
                     <button 
-                        className="bg-amber-600 text-white text-[9px] py-0.5 rounded w-full hover:bg-amber-700 transition"
-                        onClick={() => socket?.emit('join-by-code', { code: p2Code, playerId: 2 })}
+                        className="bg-amber-600 text-white text-[9px] py-1 rounded w-full hover:bg-amber-700 transition"
+                        onClick={() => handleConnect(2)}
                     >
                         Connect
                     </button>
