@@ -24,6 +24,7 @@ const ControllerView = ({ socket }: { socket: Socket | null }) => {
     if (!socket) return;
     socket.on('code-verified', (data) => {
         setSessionId(data.sessionId);
+        setPlayerId('1'); // Ensure playerId is set for code connections
     });
     socket.on('code-error', (data) => {
         setError(data.message);
