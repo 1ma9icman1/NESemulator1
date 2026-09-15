@@ -10,6 +10,7 @@ async function startServer() {
   const httpServer = createServer(app);
   const io = new Server(httpServer);
   const PORT = 3000;
+  const codeToSessionId = new Map<string, string>();
 
   // API routes
   app.get("/api/health", (req, res) => {
@@ -65,6 +66,22 @@ async function startServer() {
   // WebSocket signaling
   io.on("connection", (socket) => {
     console.log("A user connected");
+    socket.on("register-code", (data) => {
+        // data: { code, sessionId }
+        codeToSessionId.set(data.code, data.sessionId);
+        console.log(`Registered code: ${data.code} -> ${data.sessionId}`);
+    });
+
+    socket.on("join-by-code", (data) => {
+        // data: { code, playerId }
+        const sessionId = codeToSessionId.get(data.code);
+        if (sessionId) {
+            socket.emit("code-verified", { sessionId });
+        } else {
+            socket.emit("code-error", { message: "Invalid code" });
+        }
+    });
+
     socket.on("join-session", (data) => {
         // data: { sessionId, playerId }
         socket.join(data.sessionId);
