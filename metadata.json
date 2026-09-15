@@ -1,0 +1,8 @@
+{
+  "name": "Retro Arcade Interface",
+  "description": "A retro-styled arcade game interface prototype with multi-controller support.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
