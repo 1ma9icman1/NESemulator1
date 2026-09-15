@@ -13,9 +13,10 @@ import { Emulator } from './components/Emulator';
 import { ControllerOverlay } from './components/ControllerOverlay';
 
 const ControllerView = ({ socket }: { socket: Socket | null }) => {
+  const { sessionId: urlSessionId, playerId: urlPlayerId } = useParams();
   const [code, setCode] = useState('');
-  const [sessionId, setSessionId] = useState<string | null>(null);
-  const [playerId, setPlayerId] = useState<string | null>(null);
+  const [sessionId, setSessionId] = useState<string | null>(urlSessionId || null);
+  const [playerId, setPlayerId] = useState<string | null>(urlPlayerId || null);
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -42,7 +43,8 @@ const ControllerView = ({ socket }: { socket: Socket | null }) => {
   }, [sessionId, playerId, socket]);
 
   const joinByCode = () => {
-      socket?.emit('join-by-code', { code, playerId: 1 }); // Default to P1, logic to pick P1/P2 can be added
+      setPlayerId('1'); // Default to P1
+      socket?.emit('join-by-code', { code, playerId: 1 });
   };
 
   const sendInput = (button: number, type: 'down' | 'up') => {
@@ -97,6 +99,20 @@ const EmulatorView = ({ socket, sessionId, player1Connected, player2Connected, r
   const [p1Code, setP1Code] = useState('');
   const [p2Code, setP2Code] = useState('');
   const [connectionCode] = useState(() => Math.floor(1000 + Math.random() * 9000).toString());
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setScale(Math.min(window.innerWidth / 400, 1));
+      } else {
+        setScale(1);
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (!socket) return;
@@ -145,7 +161,7 @@ const EmulatorView = ({ socket, sessionId, player1Connected, player2Connected, r
   }
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden flex flex-col items-center justify-start pt-32 gap-20">
+    <div className="relative w-screen h-screen overflow-hidden flex flex-col items-center justify-start pt-32 gap-20" style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}>
       <img 
         src="/assets/background.png" 
         alt="Room background" 
