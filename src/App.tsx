@@ -23,13 +23,20 @@ const ControllerView = ({ socket }: { socket: Socket | null }) => {
   useEffect(() => {
     if (!socket) return;
     socket.on('code-verified', (data) => {
+        console.log("Code verified, session:", data.sessionId);
         setSessionId(data.sessionId);
-        setPlayerId('1'); // Ensure playerId is set for code connections
+        setPlayerId('1');
+        // Explicitly trigger join here to ensure connection
+        socket.emit('join-session', { sessionId: data.sessionId, playerId: 1 });
     });
     socket.on('code-error', (data) => {
+        console.log("Code error:", data.message);
         setError(data.message);
     });
-    socket.on('connected', () => setIsConnected(true));
+    socket.on('connected', () => {
+        console.log("Connected to game session");
+        setIsConnected(true)
+    });
     return () => { 
         socket.off('code-verified');
         socket.off('code-error');
@@ -39,6 +46,7 @@ const ControllerView = ({ socket }: { socket: Socket | null }) => {
 
   useEffect(() => {
       if (sessionId && playerId) {
+        console.log("Attempting join-session", sessionId, playerId);
         socket?.emit('join-session', { sessionId, playerId: parseInt(playerId || '1') });
       }
   }, [sessionId, playerId, socket]);
