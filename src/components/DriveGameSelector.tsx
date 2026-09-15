@@ -27,14 +27,15 @@ export const DriveGameSelector = forwardRef(({ onGameSelected }: { onGameSelecte
       .then(data => {
         if (data.error) throw new Error(data.error);
         
-        console.log('API Games Data:', data); // Debugging
+        console.log('API Games Data:', data);
+        console.log('Raw Files from Drive:', data.rawFiles);
         
-        const filteredGames = data.filter((g: any) => {
+        const filteredGames = data.files.filter((g: any) => {
             const name = g.name.toLowerCase();
             return name !== 'background' && name !== 'bg';
         });
 
-        const priorityOrder = ['bubble bobble', 'excitebike', 'bubble bobble 2'];
+        const priorityOrder = ['bubble bobble', 'contra', 'super mario bro', 'zelda', 'excitebike', 'bubble bobble 2'];
         
         const sortedGames = filteredGames.sort((a: any, b: any) => {
           const nameA = a.name.toLowerCase();

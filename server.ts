@@ -41,7 +41,7 @@ async function startServer() {
               }
           }
       });
-      res.json(Array.from(uniqueFiles.values()));
+      res.json({ files: Array.from(uniqueFiles.values()), rawFiles: response.data.files });
     } catch (error) {
       console.error('Error listing Drive files:', error);
       res.status(500).json({ error: 'Failed to list games' });
