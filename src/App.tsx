@@ -52,12 +52,13 @@ const ControllerView = ({ socket }: { socket: Socket | null }) => {
   }, [sessionId, playerId, socket]);
 
   const joinByCode = () => {
-      console.log("Attempting join-by-code", code, socket?.connected);
+      console.log("joinByCode clicked. Code:", code, "Socket:", !!socket, "Connected:", socket?.connected);
       if (!socket) {
           console.error("Socket not connected");
           return;
       }
       setPlayerId('1'); // Default to P1
+      console.log("Emitting join-by-code", { code, playerId: 1 });
       socket.emit('join-by-code', { code, playerId: 1 });
   };
 
@@ -155,6 +156,7 @@ const EmulatorView = ({ socket, sessionId, player1Connected, player2Connected, r
 
     socket.on('game-input', inputHandler);
     socket.on('game-exit', exitHandler);
+    console.log("Registering code:", connectionCode, "session:", sessionId);
     socket.emit('register-code', { code: connectionCode, sessionId });
     return () => { 
         socket.off('game-input', inputHandler); 
