@@ -74,16 +74,16 @@ export const DriveGameSelector = forwardRef(({ onGameSelected }: { onGameSelecte
   };
 
   return (
-    <div className="p-3 bg-white/10 rounded-lg backdrop-blur-sm border border-white/20 w-full max-w-sm">
-      {error && <div className="text-red-400 mb-1 text-sm">{error}</div>}
+    <div className="p-2 bg-white/10 rounded-lg backdrop-blur-sm border border-white/20 w-full max-w-xs">
+      {error && <div className="text-red-400 mb-1 text-xs">{error}</div>}
       <input 
         type="text" 
         placeholder="Search games..." 
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full p-1.5 mb-2 bg-black/50 text-white rounded text-sm"
+        className="w-full p-1 mb-1 bg-black/50 text-white rounded text-xs"
       />
-      <div className="max-h-40 overflow-y-auto">
+      <div className="max-h-32 overflow-y-auto">
         {games
           .filter(g => g.name.toLowerCase().includes(searchTerm.toLowerCase()))
           .map((game, index) => {
@@ -91,7 +91,7 @@ export const DriveGameSelector = forwardRef(({ onGameSelected }: { onGameSelecte
               <button 
                 key={game.id} 
                 onClick={() => loadGame(game.id)}
-                className={`block w-full text-left p-1.5 hover:bg-white/10 text-white text-sm ${index === selectedIndex ? 'bg-amber-600' : ''}`}
+                className={`block w-full text-left p-1 hover:bg-white/10 text-white text-xs ${index === selectedIndex ? 'bg-amber-600' : ''}`}
               >
                 {game.name}
               </button>

@@ -94,11 +94,11 @@ const EmulatorView = ({ socket, sessionId, player1Connected, player2Connected, r
   };
 
   return (
-    <div ref={appContainerRef} className={`w-screen h-screen flex flex-col items-center justify-start pt-44 text-white bg-transparent ${isFullScreen ? '!p-0' : 'p-4'} gap-6`}>
+    <div ref={appContainerRef} className={`w-screen h-screen flex flex-col items-center justify-start pt-48 text-white bg-transparent ${isFullScreen ? '!p-0' : 'p-4'} gap-6`}>
       <div className={`flex flex-col items-center justify-center text-center ${isFullScreen ? 'w-screen h-screen !p-0' : ''}`}>
         <h1 className="text-4xl font-bold tracking-tight text-transparent">NES EMULATOR</h1>
         
-        <div className={`${isFullScreen ? 'w-full h-full' : 'w-full max-w-5xl'}`} onClick={triggerFullScreen}>
+        <div className={`${isFullScreen ? 'w-full h-full' : 'w-full max-w-6xl ml-10'}`} onClick={triggerFullScreen}>
           <Emulator ref={emulatorRef} romData={romData} onStart={triggerFullScreen} />
         </div>
       </div>
