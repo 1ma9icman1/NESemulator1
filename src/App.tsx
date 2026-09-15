@@ -145,34 +145,31 @@ const EmulatorView = ({ socket, sessionId, player1Connected, player2Connected, r
   }
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden">
+    <div className="relative w-screen h-screen overflow-hidden flex flex-col items-center justify-start pt-32 gap-20">
       <img 
         src="/assets/background.png" 
         alt="Room background" 
-        className="absolute inset-0 w-full h-full object-cover" 
+        className="absolute inset-0 w-[1027px] h-[1007px] object-cover -z-10" 
       />
 
+      {/* Emulator container */}
       <div 
-        className="absolute"
+        className="cursor-pointer"
         style={{ 
-            top: '20%', 
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '32%', 
-            height: '35%' 
+            width: '32vw',
+            height: '35vh' 
         }}
         onClick={triggerFullScreen}
       >
         <Emulator ref={emulatorRef} romData={romData} onStart={triggerFullScreen} />
       </div>
 
+      {/* UI Overlay */}
       <div 
-        className="absolute bg-black/80 p-4 rounded-xl border border-amber-600 backdrop-blur-md shadow-2xl flex flex-col items-center gap-3"
+        className="bg-black/80 p-4 rounded-xl border border-amber-600 backdrop-blur-md shadow-2xl flex flex-col items-center gap-3"
         style={{
-            top: '60%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '400px',
+            width: '360px',
+            height: '357.486px',
         }}
       >
         <DriveGameSelector ref={gameSelectorRef} onGameSelected={setRomData} />
@@ -202,7 +199,7 @@ const EmulatorView = ({ socket, sessionId, player1Connected, player2Connected, r
             </div>
 
             {/* Central Connection Code */}
-            <div className="flex flex-col items-center text-[10px] text-white text-center whitespace-nowrap px-2 -mt-4">
+            <div className="flex flex-col items-center text-[10px] text-white text-center whitespace-nowrap px-2">
                 <div>Connect with:</div>
                 <div className="font-bold text-base text-amber-500">{connectionCode}</div>
             </div>

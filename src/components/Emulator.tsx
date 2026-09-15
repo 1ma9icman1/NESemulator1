@@ -120,7 +120,7 @@ export const Emulator = forwardRef(({ romData, onStart }: { romData: Uint8Array 
 
   return (
     <div className="relative">
-        <canvas ref={canvasRef} width="256" height="240" className="w-full h-auto aspect-[256/240] bg-black border-4 border-white/10" style={{ width: '358px', height: '261.986px' }} />
+        <canvas ref={canvasRef} width="256" height="240" className="bg-black border-4 border-white/10" style={{ width: '623px', height: '409px' }} />
         <button 
             onClick={() => setIsMuted(!isMuted)}
             className="absolute top-2 left-2 p-2 bg-black/50 text-white rounded-full hover:bg-black/70"
